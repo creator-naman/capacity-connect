@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "trn-new001",
+      "email": "njha76724@gmail.com",
+      "name": "Naman Jha",
+      "initials": "NJ",
+      "role": "trainee",
+      "status": "active",
+      "title": "bca",
+      "createdAt": "2026-09-13T14:28:32.206Z"
+    }
+  ],
+  "overrides": {},
+  "counter": 10
+}
