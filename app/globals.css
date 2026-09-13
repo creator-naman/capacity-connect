@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/* Class-based dark mode so the ThemeProvider can switch via `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------
+   CAPACITY CONNECT — DESIGN TOKENS
+
+   Single source of truth for color, radius, and shadow. Tailwind v4
+   turns each --color-* variable into utilities automatically
+   (e.g. --color-primary -> bg-primary, text-primary, border-primary).
+   Never hardcode a hex value in a component — extend this file instead.
+
+   LIGHT: cool neutral, slate/navy, desaturated teal, subtle translucency.
+   DARK:  deep atmospheric navy/slate, muted teal, controlled translucency.
+   Dark values intentionally re-tune every token rather than inverting.
+   --------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+
+  /* Surfaces */
+  --color-bg: #f5f6f5;
+  --color-surface: #ffffff;
+  --color-surface-glass: rgb(255 255 255 / 72%);
+  --color-surface-sunken: #eef0ee;
+
+  /* Borders */
+  --color-border: #e1e4e1;
+  --color-border-strong: #c7ccc8;
+
+  /* Text */
+  --color-ink: #14181a;
+  --color-ink-secondary: #48525a;
+  --color-ink-muted: #838d92;
+  --color-ink-inverted: #f5f6f5;
+
+  /* Brand */
+  --color-primary: #1f3a5c;
+  --color-primary-hover: #16293f;
+  --color-primary-soft: #e7edf2;
+  --color-accent: #2d7d72;
+  --color-accent-soft: #e2efec;
+
+  /* Status */
+  --color-success: #2f7d52;
+  --color-success-soft: #e5f2e9;
+  --color-warning: #a97327;
+  --color-warning-soft: #f6ecdc;
+  --color-error: #b3403f;
+  --color-error-soft: #f6e4e3;
+  --color-info: #3568a6;
+  --color-info-soft: #e5edf5;
+
+  /* Radius — restrained, not pill-shaped */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+
+  /* Shadow — one soft elevation, used sparingly */
+  --shadow-elevated: 0 1px 2px rgb(20 24 26 / 4%), 0 8px 24px -12px rgb(20 24 26 / 12%);
+}
+
+/* Dark theme — re-tuned, not inverted. Surfaces step up from deep navy,
+   primaries lift to steel blue so text contrast holds on both buttons
+   and on-surface headings, and soft tones become deep washes. */
+.dark {
+  --color-bg: #0d141b;
+  --color-surface: #151d26;
+  --color-surface-glass: rgb(17 25 33 / 64%);
+  --color-surface-sunken: #101820;
+
+  --color-border: #263341;
+  --color-border-strong: #3a4a5c;
+
+  --color-ink: #e7edf3;
+  --color-ink-secondary: #a8b6c3;
+  --color-ink-muted: #718293;
+  --color-ink-inverted: #10161c;
+
+  --color-primary: #5e93c2;
+  --color-primary-hover: #74a5cf;
+  --color-primary-soft: #1b2c3d;
+  --color-accent: #4fa394;
+  --color-accent-soft: #142e2a;
+
+  --color-success: #62b084;
+  --color-success-soft: #14291c;
+  --color-warning: #d0a054;
+  --color-warning-soft: #2e2512;
+  --color-error: #d98280;
+  --color-error-soft: #341a19;
+  --color-info: #7aa5d6;
+  --color-info-soft: #16242f;
+
+  --shadow-elevated: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px -12px rgb(0 0 0 / 50%);
+
+  color-scheme: dark;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Theme switches re-tune dozens of custom properties; a short color
+   transition keeps the swap from feeling like a hard cut. */
+html.theme-transition,
+html.theme-transition * {
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease !important;
+}
+
+/* Dialog transitions used by components/ui/Modal.tsx */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Skeleton shimmer for loading states */
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* Numeric / data values use the mono face deliberately — a nod to IMD
+   being a data-driven scientific organization, not decoration. Apply
+   via the `font-mono tabular-nums` utility pair on stat values. */
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
